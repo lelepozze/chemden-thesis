@@ -1,0 +1,276 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{chemden-tesi}[26/07/2023]
+
+
+%### Base #############
+
+\PassOptionsToPackage{dvipsnames,table}{xcolor}
+\RequirePackage{xcolor}
+\definecolor{Secondary}{HTML}{3399FF} % Colore secondario
+\definecolor{Primary}{HTML}{B5121B} % Colore primario
+\colorlet{lightPrimary}{Primary!30!white}
+\colorlet{lightSecondary}{Secondary!5!white}
+
+\RequirePackage{silence}
+\WarningFilter{microtype}{Unable to apply patch `footnote' on input line}
+	
+\RequirePackage{iftex}
+
+\newif\ifxetexorluatex
+\ifxetex
+\xetexorluatextrue
+\else
+\ifluatex
+\xetexorluatextrue
+\else
+\xetexorluatexfalse
+\fi
+\fi
+
+
+\ifxetexorluatex
+\RequirePackage{fontspec} % Pacchetto per poter utilizzare fonti differenti
+\setmainfont{Minion Pro} % Font del corpo di testo
+\setsansfont{Myriad Pro}% Font senza grazie
+\ifxetex
+	\RequirePackage{xunicode}
+	\RequirePackage{xltxtra}
+	\RequirePackage{microtype}
+	\RequirePackage{polyglossia}
+		\setdefaultlanguage{italian}
+		\setotherlanguages{english}
+\else
+	\PassOptionsToPackage{protrusion=true}{microtype}
+	\RequirePackage{microtype}
+	\PassOptionsToPackage{english,italian}{babel}
+	\RequirePackage{babel}
+\fi
+\else
+\RequirePackage{times}
+\PassOptionsToPackage{scaled=0.92}{helvet}
+\RequirePackage{helvet}
+\PassOptionsToPackage{expansion,protrusion=true,tracking,kerning,babel=true}{microtype}%
+\RequirePackage{microtype}
+\PassOptionsToPackage{T1}{fontenc}
+\RequirePackage{fontenc}
+\PassOptionsToPackage{english,italian}{babel}
+\RequirePackage{babel}
+\PassOptionsToPackage{utf8}{inputenc}
+\RequirePackage{inputenc}
+\fi
+
+\let\chemden@serif\rmdefault
+\let\chemden@sans\sfdefault
+\RequirePackage{mathpazo}
+\let\rmdefault\chemden@serif
+\let\sfdefault\chemden@sans
+
+\PassOptionsToPackage{
+    a4paper,
+    left=25mm,
+    right=25mm,
+    top=25mm,
+    bottom=25mm,
+    heightrounded
+    }{geometry}
+\RequirePackage{geometry}
+
+\newcommand{\chemden@fullpaper}{
+    \newgeometry{
+        left=20mm,
+        right=20mm,
+        top=25mm,
+        bottom=25mm,
+        heightrounded
+        }}
+
+
+\RequirePackage{textcomp}
+\RequirePackage{gensymb}
+
+\RequirePackage{chemden-macro}
+
+\def\fullpaper{\chemden@fullpaper}
+\def\endfullpaper{\restoregeometry}
+
+\let\frontmatter\chemden@frontmatter
+\let\mainmatter\chemden@mainmatter
+\let\backmatter\chemden@backmatter
+
+%### Intestazioni #######
+\RequirePackage{fancyhdr}
+\RequirePackage{emptypage}
+\renewcommand{\headrulewidth}{0pt} 
+\renewcommand{\footrulewidth}{0pt}
+
+\fancypagestyle{fancy}{
+    \fancyhf{}
+    \fancyfoot[LE]{\thepage}
+    \fancyfoot[RO]{\thepage}
+}
+
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyfoot[LE]{\thepage}
+    \fancyfoot[RO]{\thepage}
+}
+\pagestyle{fancy}
+
+
+%### Titoli ##########
+\PassOptionsToPackage{explicit}{titlesec}
+\RequirePackage{titlesec}
+
+\titleformat{name=\chapter}[display] % Formato capitoli
+	{\huge\sffamily\bfseries}
+	{}
+	{0pt}
+	{\arabic{chapter} \hspace{4pt} #1}
+\titleformat{name=\chapter,numberless}[display] % Formato capitoli*
+	{\huge\sffamily\bfseries}
+	{}
+	{0pt}
+	{#1}
+\titlespacing{\chapter}{0pt}{-50pt}{10pt}
+
+\titleformat{name=\section}[display] % Formato sezioni
+	{\LARGE \sffamily \bfseries}
+	{}
+	{0pt}
+	{\arabic{chapter}.\arabic{section} \hspace{3pt} #1}
+\titleformat{name=\section,numberless}[display] % Formato sezioni*
+	{\LARGE \sffamily \bfseries}
+	{}
+	{0pt}
+	{#1}
+\titlespacing{\section}{0pt}{-35pt}{0pt}
+
+
+\titleformat{name=\subsection}[display] % Formato sottosezioni
+	{\large \sffamily}
+	{}
+	{0pt}
+	{\arabic{chapter}.\arabic{section}.\arabic{subsection} \hspace{2pt} #1}
+\titleformat{name=\subsection,numberless}[display] % Formato sottosezioni*
+	{\large \sffamily}
+	{}
+	{0pt}
+	{#1}
+\titlespacing{\subsection}{0pt}{-30pt}{0pt}
+
+%### Indice ############
+\RequirePackage{titletoc}
+
+\titlecontents{chapter}
+	[2em]
+	{\medskip}
+	{\sffamily\bfseries\chaptername{} \hspace{10pt}\contentslabel[\bfseries \sffamily  \thecontentslabel]
+		{0.7em} -- \bfseries \sffamily
+	}
+	{\contentslabel[\bfseries \sffamily \hspace{15pt} \thecontentslabel]
+		{3em}  \bfseries \sffamily
+	}
+	{\hspace*{2pt}\sffamily \bfseries \titlerule*[0.75em]{.} \sffamily \contentspage}
+	[\smallskip]
+
+\titlecontents{section}
+	[5em]
+	{\vspace{1pt}}
+	{\contentslabel[\sffamily \hspace{40pt} \thecontentslabel]
+		{5.5em} \sffamily
+	}
+	{}
+	{\hspace*{2pt}\sffamily \titlerule*[0.75em]{.}  \contentspage}
+	[\vspace{1pt}]
+
+\titlecontents{subsection}
+	[6.8em]
+	{\vspace{1pt}}
+	{\small \contentslabel[\sffamily \hspace{50pt} \thecontentslabel]
+		{7.3em} \sffamily
+	}
+	{}
+	{\hspace*{2pt}\sffamily\titlerule*[0.75em]{.}  \contentspage}
+	[\vspace{1pt}]
+
+%##### Altro #####
+
+\RequirePackage{marginfix}
+\RequirePackage{marginnote}
+	\PassOptionsToPackage{bottom}{footmisc} % per le note a piè di pagina
+\RequirePackage{footmisc}
+\RequirePackage{silence}
+	\WarningFilter{microtype}{Unable to apply patch `footnote' on input line}
+\RequirePackage{enumitem} % personalizzazione degli elenchi
+	\setlist[1]{itemsep=2pt}
+\RequirePackage{setspace}
+\RequirePackage{indentfirst}
+	\PassOptionsToPackage{font=itshape}{quoting}
+\RequirePackage{quoting}
+\RequirePackage{caption} % inserisce le didascalie sotto le immagini
+	\DeclareCaptionFont{ThesisCaptfont}{\rmfamily \small}
+	\DeclareCaptionFont{ThesisLabcaptfont}{\bfseries \sffamily \small}
+	\captionsetup{ % personalizzazione delle didascalie
+		hypcap=false,
+		labelfont=ThesisCaptfont,
+		font=ThesisCaptfont,
+		figurename=Fig.,
+		tablename=Tab.,
+		tableposition=bottom,
+	}
+\RequirePackage{lipsum}
+	\PassOptionsToPackage{strict}{changepage}
+\RequirePackage{changepage}
+%\RequirePackage{pdfpages}
+\RequirePackage{csquotes}
+\RequirePackage{graphicx}
+	\graphicspath{
+	{Immagini/}
+	{Immagini/01/}
+	{Immagini/02/}
+	{Immagini/03/}
+	{Immagini/04/}
+	{Immagini/05/}
+	{Immagini/06/}
+	{Immagini/07/}
+	{Immagini/08/}
+	{Immagini/09/}
+	{Immagini/10/}
+	{Immagini/11/}
+	{Immagini/12/}
+	{Immagini/13/}
+	{Immagini/14/}
+	{Immagini/15/}
+	{Immagini/16/}
+	{Immagini/17/}
+	{Immagini/18/}
+	{Immagini/19/}
+	{Immagini/20/}
+	{Immagini/header/}
+	%{inserire qui altri percorsi}	
+	}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlength{\abovecaptionskip}{6pt}  % distanza delle didascalie
+\setlength{\belowcaptionskip}{6pt} % dall'immagine e dal testo
+\setlength{\textfloatsep}{6pt}
+\newcommand{\ft}[1]{\footnote{#1}}
+
+%### Hyperref and pdf/a #########
+
+\PassOptionsToPackage{
+	hidelinks,
+	unicode,
+	plainpages=false,
+	pdfpagelabels,
+	pdfa,
+	}{hyperref}
+\RequirePackage{hyperref}
+\urlstyle{rm}
+
+%\PassOptionsToPackage{
+%
+%	}{pdfx}
+%\RequirePackage{pdfx}
+
+\endinput
