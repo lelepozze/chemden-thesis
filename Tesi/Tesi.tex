@@ -1,0 +1,75 @@
+\documentclass[12pt]{book}
+
+%### PDF/A Compliant ###########################
+
+\usepackage{hyperxmp}
+\usepackage{chemden-tesi}
+
+%### Metadata ########################################
+
+\author{Daniele Pozzebon}
+\title{Titolo della tesi (Work in Progress)}
+
+\hypersetup{%
+	pdfauthor={\printauthor},
+	pdftitle={\printitle},
+	pdfcopyright={Copyright \textcopyright{} 2023,\printauthor},
+	pdflicenseurl={https://creativecommons.org/licenses/by/4.0/deed.it},
+	pdfsubject={Titolo},
+	pdfkeywords={SARS-COV19},
+	pdflang={it-IT},
+	pdfproducer={pdflatex},
+	pdfcreator={LaTeX},
+	bookmarksopen=true,
+	bookmarksopenlevel=1,
+	hypertexnames=false,
+	pdfapart=1,
+	pdfaconformance=B,
+%	pdfmetalang={en-US},
+%	pdfcontactaddress={Street},
+%	pdfcontactcity={City},
+%	pdfcontactpostcode={101},
+%	pdfcontactcountry={Country},
+%	pdfcontactemail={email@institute.edu},
+%	pdfcontacturl={http://www.institute.edu},
+}
+
+%### Pacchetti utilizzati ########################################
+
+\usepackage[
+	backend=biber,
+	style=chem-angew,
+	sorting=none,
+	citestyle=numeric
+	]{biblatex}
+\addbibresource{Bibliografia.bib}
+
+%\addcolour{b5121b}
+
+%### Configurazioni #######################################
+\onehalfspacing
+
+%### Documento ########################################
+
+\begin{document}
+
+\ifinput{FrontBackMatter/Frontespizio}
+
+\frontmatter{}
+\ifinput{FrontBackMatter/Indice}
+\ifinput{FrontBackMatter/Dedica}
+\ifinput{FrontBackMatter/Abbreviazioni}
+
+
+\mainmatter{}
+\ifinput{Capitoli/01}
+\ifinput{Capitoli/02}
+\ifinput{Capitoli/03}
+\ifinput{Capitoli/04}
+\ifinput{Capitoli/05}
+
+\backmatter{}
+
+\ifinput{FrontBackMatter/Bibliografia}
+
+\end{document}

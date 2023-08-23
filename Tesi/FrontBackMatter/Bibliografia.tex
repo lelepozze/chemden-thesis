@@ -1,0 +1,12 @@
+\begingroup
+\makeatletter
+\@ifpackageloaded{biblatex}{
+\defbibheading{bibliography}[\bibname]{%
+\phantomsection
+\addcontentsline{toc}{chapter}{#1}
+\chapter*{#1}%
+\markboth{#1}{#1}}
+\printbibheading
+\printbibliography[heading=none]}{}
+\makeatother
+\endgroup
